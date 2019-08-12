@@ -1,0 +1,21 @@
+#!/bin/bash
+#$ -N runMConly
+#$ -j y
+#$ -cwd
+#$ -o /eos/nica/mpd/data/output
+#$ -e /eos/nica/mpd/data/error
+# request Bourne again shell as shell for job
+#$ -S /bin/bash
+
+source /eos/nica/mpd/users/sawicki/mpdroot/build/config.sh  #set your path
+cd /eos/nica/mpd/data/Urqmd.$2GeV/$1/TestEvUrqmd
+rm evetest.root
+#rm runMC.c
+#cp /eos/nica/mpd/data/template/runMC.C .
+root -b -q runMC.C
+cp /eos/nica/mpd/data/template/reco.C .
+root -b -q reco.C 
+cd ..
+
+mv ../../output/*.o$JOB_ID .
+mv ../../error/*.e$JOB_ID .

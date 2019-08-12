@@ -1,0 +1,39 @@
+#!/bin/bash
+#$ -N runurqmd
+#$ -j y
+#$ -cwd
+#$ -o /eos/nica/mpd/data/output
+#$ -e /eos/nica/mpd/data/error
+# request Bourne again shell as shell for job
+#$ -S /bin/bash
+
+
+echo " Start date: `date` (`hostname`)"
+
+source /eos/nica/mpd/users/sawicki/mpdroot/build/config.sh #change path to your own mpdROOT 
+cd /eos/nica/mpd/data/
+mkdir -p Urqmd.$1GeV
+cd Urqmd.$1GeV
+mkdir $JOB_ID
+#echo $JOB_ID >> /eos/nica/mpd/data/Urqmd.$1GeV/jobs_list.txt
+cd $JOB_ID
+mkdir gen
+cp /nica/user/s/sawicki/work/template/inputfile gen/ #use inputfile from your home directory
+ln -s /eos/nica/mpd/users/sawicki/urqmd-3.4/urqmd.x86_64 gen/urqmd.x86_64 #link urqmd from your directory
+cd gen
+/eos/nica/mpd/users/sawicki/urqmd-3.4/runqmd.bash #run urqmd from your directory
+#gzip test.f14
+cd ../
+mkdir TestEvUrqmd
+cd TestEvUrqmd
+ln -s ../gen/test.f14 fort.f14
+cp /eos/nica/mpd/data/template/runMC.C .
+cp /eos/nica/mpd/data/template/reco.C .
+cp /eos/nica/mpd/data/template/runreco.sh .
+./runreco.sh $JOB_ID
+cd ../
+
+mv ../../output/*.o$JOB_ID .
+mv ../../error/*.e$JOB_ID .
+
+echo " End date: `date`"

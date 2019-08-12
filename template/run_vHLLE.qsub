@@ -1,0 +1,46 @@
+#!/bin/bash
+#$ -N runvHLLE
+#$ -j y
+#$ -cwd
+#$ -o /eos/nica/mpd/data/output.vHLLE
+#$ -e /eos/nica/mpd/data/error.vHLLE
+# request Bourne again shell as shell for job
+#$ -S /bin/bash
+
+#remember to set energy [GeV] and number of events in vHLLE.C macro before run this script!
+
+source /eos/nica/mpd/users/sawicki/mpdroot/build/config.sh #set your path
+source /eos/nica/mpd/users/sawicki/vHLLE/config.sh #set your path
+
+#need to make it in this way because you cannot chmod +x in mpd/data folder
+cd /eos/nica/mpd/users/sawicki
+mkdir -p vHLLE.tmp
+cd vHLLe.tmp
+mkdir $JOB_ID
+cd $JOB_ID
+mkdir gen
+cd gen
+cp /eos/nica/mpd/users/sawicki/vHLLE/macro/vHLLE.C . #set your path
+root -b -q vHLLE.C
+
+#now we go back to data folder and mv JOB_ID folder from our local data
+cd /eos/nica/mpd/data
+mkdir -p vHLLE.$1GeV
+cd vHLLE.$1GeV
+mv -r /eos/nica/mpd/users/sawicki/vHLLE.tmp/$JOB_ID .
+cd $JOB_ID
+mkdir output
+cd gen
+./job*.bash
+ln -s *.root ../output/vHLLE_sim.root
+cd ../output
+
+cp /eos/nica/mpd/data/macro.vHLLE/reco.C .
+cp /eos/nica/mpd/data/macro.vHLLE/runMC.C .
+
+root -b -q runMC.C 
+root -b -q reco.C 
+
+cd ..
+mv /eos/nica/mpd/data/output/*.o$JOB_ID .
+mv /eos/nica/mpd/data/error/*.e$JOB_ID .
