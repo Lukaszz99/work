@@ -1,3 +1,8 @@
+/*
+    Łukasz Sawicki
+    l.sawicki99@gmail.com
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -71,6 +76,7 @@ int main(int argc, char **argv)
                 return 0;      
         }
         
+        //checking how many folders need to be checked
         vector<string>job_folder;
         int folder_number = 0;
         hm_folders(energy,folder_number, job_folder);

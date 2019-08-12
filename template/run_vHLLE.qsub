@@ -35,8 +35,8 @@ cd gen
 ln -s *.root ../output/vHLLE_sim.root
 cd ../output
 
-cp /eos/nica/mpd/data/macro.vHLLE/reco.C .
 cp /eos/nica/mpd/data/macro.vHLLE/runMC.C .
+cp /eos/nica/mpd/data/macro.vHLLE/reco.C .
 
 root -b -q runMC.C 
 root -b -q reco.C 
