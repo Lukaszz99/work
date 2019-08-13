@@ -5,14 +5,14 @@ To using these files you need to have access to NICA cluster and access to /eos/
 
 With these files you can run jobs automatically with UrQMD and vHLLE simulation package (other in future). To run jobs is required to install UrQMD, vHLLE and MpdROOT, because for today (August 2019), they are not installed on cluster for everyone.
 
-After clonning files from GitHub you need to change path to yours in these files in template folder
+After cloning files from GitHub you need to change path to yours in these files in template folder
 run_Urqmd.qsub
 run_vHLLE.qsub
 Then you have to make in template/programs and filetest/UrQMD and filetest/vHLLE (on august 2019 vHLLE filetest is still not ready)
 
 How to run UrQMD simulation
 1. Type ./run_jobs_UrQMD.sh energy number_of_simulations
-avaliable are only intiger numbers (you can change it into float by editing source code)
+Available are only integer energies (you can change it into float by editing source code)
 
 How to run vHLLE simulation
 1. You need to change energy and number of events in macro vHLLE.C in vHLLE/macro folder. Remember to set gen->SetOutputDirectory as "./" in this macro.
