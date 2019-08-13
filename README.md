@@ -1,9 +1,7 @@
-**********************************
-*                                *
-*       Łukasz Sawicki           *
-*    l.sawicki99@gmail.com       *
-*                                *
-**********************************
+
+      Łukasz Sawicki           
+   l.sawicki99@gmail.com       
+
 To using these files you need to have access to NICA cluster and access to /eos/nica/mpd/data folder
 
 With these files you can run jobs automatically with UrQMD and vHLLE simulation package (other in future). To run jobs is required to install UrQMD, vHLLE and MpdROOT, because for today (August 2019), they are not installed on cluster for everyone.
