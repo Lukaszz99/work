@@ -1,6 +1,5 @@
-
-      Łukasz Sawicki           
-   l.sawicki99@gmail.com       
+Łukasz Sawicki           
+l.sawicki99@gmail.com       
 
 To using these files you need to have access to NICA cluster and access to /eos/nica/mpd/data folder
 
