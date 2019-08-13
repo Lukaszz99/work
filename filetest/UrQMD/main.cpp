@@ -2,36 +2,17 @@
     Łukasz Sawicki
     l.sawicki99@gmail.com
 */
-
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <vector>
-
-using namespace std;
-
-bool exist_file(const string& name); //return 1 if file exist
-void prnt_qsublist(FILE* qsub_list, int energy, bool first);   //print list of jobs to do
-void prnt_runMClist(FILE* runMClist, int energy, bool first, int job_folder);  //needs go to test folder and run runMC.C
-void prnt_recolist(FILE *recolist, int energy, bool first, int job_folder);    //needs go to test folder, copy reco.C and run reco.C
-                                                          //in both need source, $1 is number of simulation (i numer), $2 is energy
-int n_Events(string inputfile_path); //return numer of events in job
-int check_filesize(const string filename,const unsigned long size_min);  //retun 1 if file is smaller for this energy than required, 0 otherwise
-void hm_folders(int energy,int &folder_number, vector<string>&job_folder); //how many folders is in Urqmd.energyGeV folder
-void prnt_failedjobs(int energy, int i);//print list of folders with errors jobs in Urqmd folder
-bool first_list[3]{true,true,true}; //bool helps print qsub reco and runMC list  1st array for qsub 2nd for  runMC 3rd for reco      
-
-//min size of mpddst and evetest boards, 1st array for 4GeV 2nd for 5GeV .... last for 11GeV, first 8 arrays are  for 500 events, second 8 is for 200 events!
-unsigned long mpddst_min[16]{660000000,770000000,850000000,1100000000,1200000000,1400000000,1550000000,1700000000,250000000,300000000,330000000,430000000,470000000,550000000,600000000,660000000};
-unsigned long evetest_min[16]{3100000000,3600000000,4300000000,5300000000,5600000000,6400000000,6600000000,7300000000,1160000000,1340000000,1610000000,1980000000,2090000000,2390000000,2470000000,2730000000};
- 
+#include "testlibs.hpp"
 
 int main(int argc, char **argv)
 {
     if(argc == 3)
     {
+        //min size of mpddst and evetest boards, 1st array for 4GeV 2nd for 5GeV .... last for 11GeV, first 8 arrays are  for 500 events, second 8 is for 200 events!
+        unsigned long mpddst_min[16]{660000000,770000000,850000000,1100000000,1200000000,1400000000,1550000000,1700000000,250000000,300000000,330000000,430000000,470000000,550000000,600000000,660000000};
+        unsigned long evetest_min[16]{3100000000,3600000000,4300000000,5300000000,5600000000,6400000000,6600000000,7300000000,1160000000,1340000000,1610000000,1980000000,2090000000,2390000000,2470000000,2730000000};
+        bool first_list[3]{true,true,true}; //bool helps print qsub reco and runMC list  1st array for qsub 2nd for  runMC 3rd for reco
+
         //int max_num_folders = atoi(argv[3]);
         int energy = atoi(argv[2]);
 
@@ -62,7 +43,7 @@ int main(int argc, char **argv)
         FILE *file = fopen(error.c_str(),"w+"); //contains what happend and where
         FILE *mpddst = fopen(mpddsd_list.c_str(), "w+"); //contains mpddst.root files
         FILE *error_category = fopen(error_cat.c_str(),"w+"); //contains category of error
-        FILE *qsub_list = fopen(qsblst.c_str(),"w+");
+        //FILE *qsub_list = fopen(qsblst.c_str(),"w+");
         FILE *runMClist = fopen(runMClst.c_str(),"w+");
         FILE *recolist = fopen(recolst.c_str(),"w+");
 
@@ -74,7 +55,7 @@ int main(int argc, char **argv)
                 fclose(file);
                 num_of_errors[1]++;
                 return 0;      
-        }
+            }
         
         //checking how many folders need to be checked
         vector<string>job_folder;
@@ -194,7 +175,7 @@ int main(int argc, char **argv)
             //if everything is okay make list of mpddst.root files
             fprintf(mpddst,"%s\n",fmpddst.c_str());
         }
-        cout << "Making qsub list of failed jobs" << endl;
+        //cout << "Making qsub list of failed jobs" << endl;
         cout << "Printing list of mpddst.root files" << endl;
 
         num_of_errors[0] = num_of_errors[1] + num_of_errors[2] + num_of_errors[3] + num_of_errors[4];
@@ -207,7 +188,7 @@ int main(int argc, char **argv)
         fclose(file);
         fclose(mpddst);
         fclose(error_category);
-        fclose(qsub_list);
+        //fclose(qsub_list);
         fclose(runMClist);
         fclose(recolist);
         return 0;
@@ -218,103 +199,4 @@ int main(int argc, char **argv)
     
     }
     
-}
-
-bool exist_file(const string& name)
-    {
-        struct stat buffer;
-        return(stat(name.c_str(), &buffer) == 0);
-    }
-
-void prnt_qsublist(FILE* qsub_list, int energy, bool first)
-    {
-        if(first == true){
-            fprintf(qsub_list,"qsub runurqmdevgen.qsub %i",energy);
-        }else
-        {
-            fprintf(qsub_list,"&& qsub runurqmdevgen.qsub %d ",energy);
-        }      
-    }
-
-
-void prnt_runMClist(FILE* runMClist, int energy, bool first, int job_folder)
-{ 
-    if(first == true){
-        fprintf(runMClist,"qsub runMC_list.qsub %d %d ",job_folder, energy);
-    }else
-    {
-        fprintf(runMClist,"&& qsub runMC_list.qsub %d %d ",job_folder, energy);
-    }
-}
-
-void prnt_recolist(FILE* recolist, int energy, bool first, int job_folder)
-{ 
-    if(first == true){
-        fprintf(recolist,"qsub reco_list.qsub %d %d ",job_folder, energy);
-    }else
-    {
-        fprintf(recolist,"&& qsub reco_list.qsub %d %d ",job_folder, energy);
-    }
-}
-
-int n_Events(string inputfile_path)
-{
-    int nEvents;
-    string nev = "nev"; //after world nev in inputfile is number of events
-    string tmp;
-    fstream inputfile; 
-    inputfile.open(inputfile_path.c_str(), ios::in);
-
-    while(inputfile >> tmp)
-    {   
-        if(nev == tmp)
-        {
-            string number;
-            inputfile >> number;
-            nEvents = stoi(number);
-            break;
-        }
-    }
-
-    inputfile.close();
-    return nEvents;
-}
-int check_filesize(const string filename, unsigned long size_min)
-{
-    struct stat size;
-    stat(filename.c_str(),&size);
-    if(size.st_size < size_min) //if less than required
-    {
-        return 1;
-    }else
-    {   
-        return 0;
-    }
-}
-void hm_folders(int energy,int &folder_number, vector<string>&job_folder)
-{
-    fstream folder_list;
-    string listjobs = "Urqmd." + to_string(energy) + "GeV/jobs.txt";
-    folder_list.open(listjobs.c_str(), ios::in | ios::out);
-    string tmp;
-    
-    while(folder_list >> tmp )
-    {
-        if(tmp.compare("jobs.txt") != 0);
-            {
-                job_folder.push_back(tmp);
-                folder_number++;
-            }
-    }
-    folder_list.close();
-}
-void prnt_failedjobs(int energy, int i)
-{
-    string listjobs = "Urqmd." + to_string(energy) + "GeV/failed_folders.txt";
-    FILE *folder_list = fopen(listjobs.c_str(),"a+");
-
-    fprintf(folder_list,"rm -rf %d\n",i);
-    //fprintf(folder_list,"mv %d ../TRASH/\n",i);
-
-    fclose(folder_list);
 }
