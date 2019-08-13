@@ -6,6 +6,6 @@ programs/makeinputfile $1
 counter = 1
 while ((counter < $2))
 do
-    qsub runurqmdevgen.qsub $1
+    qsub run_UrQMD.qsub $1
     ((counter++))
 done
