@@ -93,7 +93,8 @@ void prnt_failedjobs(int energy, int i)
     string listjobs = "Urqmd." + to_string(energy) + "GeV/failed_folders.txt";
     FILE *folder_list = fopen(listjobs.c_str(),"a+");
 
-    fprintf(folder_list,"rm -rf %d\n",i);
+    fprintf(folder_list,"%d\n",i);
+    //fprintf(folder_list,"rm -rf %d\n",i);
     //fprintf(folder_list,"mv %d ../TRASH/\n",i);
 
     fclose(folder_list);
