@@ -29,7 +29,7 @@ mkdir TestEvUrqmd
 cd TestEvUrqmd
 ln -s ../gen/test.f14 fort.f14
 #coping essential macros from /eos/nica/mpd/data/template/
-cp eos/nica/mpd/data/template/runMC.C .
+cp /eos/nica/mpd/data/template/runMC.C .
 cp /eos/nica/mpd/data/template/reco.C .
 
 cp /eos/nica/mpd/data/template/runreco.sh .
