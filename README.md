@@ -11,7 +11,7 @@ run_vHLLE.qsub
 Then you have to make in template/programs and filetest/UrQMD and filetest/vHLLE (on august 2019 vHLLE filetest is still not ready)
 
 How to run UrQMD simulation
-1. Type ./run_jobs_UrQMD.sh energy number_of_simulations
+1. Type ./run_jobs_UrQMD.sh energy number_of_simulations.
 Available are only integer energies (you can change it into float by editing source code)
 
 How to run vHLLE simulation
