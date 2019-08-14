@@ -29,9 +29,8 @@ cd TestEvUrqmd
 ln -s ../gen/test.f14 fort.f14
 cp /eos/nica/mpd/data/template/runMC.C .
 cp /eos/nica/mpd/data/template/reco.C .
-#cp /eos/nica/mpd/data/template/runreco.sh .
-root -b -q runMC.C
-root -b -q reco.C
+cp /eos/nica/mpd/data/template/runreco.sh .
+./runreco.sh
 cd ../
 
 mv ../../output/*.o$JOB_ID .

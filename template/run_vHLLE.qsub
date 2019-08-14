@@ -37,9 +37,8 @@ cd ../output
 
 cp /eos/nica/mpd/data/macro.vHLLE/runMC.C .
 cp /eos/nica/mpd/data/macro.vHLLE/reco.C .
-
-root -b -q runMC.C 
-root -b -q reco.C 
+cp /eos/nica/mpd/data/template/runreco.sh .
+./runreco.sh
 
 cd ..
 mv /eos/nica/mpd/data/output/*.o$JOB_ID .

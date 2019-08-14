@@ -93,7 +93,7 @@ int main(int argc, char **argv)
             //check how much events was in this job, works only if gen folder exist
             string inputfile = gen_folder + "/inputfile";
             last = nEvents;
-            if(n_Events(inputfile) > 10000)
+            if(n_Events(inputfile) > 10000) //this number mean error
             {
                 nEvents = last;
             }else
