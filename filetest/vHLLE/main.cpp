@@ -47,7 +47,7 @@ int main(int argc, char **argv)
             if(!vHLLE)
             {
                 cout << "Big problems here, maybe you type wrong energy, check errors file!\nExiting...\n";
-                fprintf(file,"Folder vHLLE.%sGev not found. run_vHLLE.qsub has failed\n",energy);
+                fprintf(file,"Folder vHLLE.%sGev not found. run_vHLLE.qsub has failed\n",energy.c_str());
                 fclose(file);
                 num_of_errors[1]++;
                 return 0;      
