@@ -47,7 +47,7 @@ int main(int argc, char **argv)
             if(!vHLLE)
             {
                 cout << "Big problems here, maybe you type wrong energy, check errors file!\nExiting...\n";
-                fprintf(file,"Folder vHLLE.%dGev not found. run_vHLLE.qsub has failed\n",energy);
+                fprintf(file,"Folder vHLLE.%.1fGev not found. run_vHLLE.qsub has failed\n",energy);
                 fclose(file);
                 num_of_errors[1]++;
                 return 0;      
@@ -125,7 +125,7 @@ int main(int argc, char **argv)
                 fprintf(file,"File mpddst.root in output %s not found. Macro reco.C has failed\n",i.c_str());
                 num_of_errors[4]++;
                 //prnt_recolist(recolist,energy,first_list[2],stoi(i));
-                first_list[2] = false;
+                //first_list[2] = false;
                 prnt_failedjobs(energy,stoi(i));
                 continue;
             }
