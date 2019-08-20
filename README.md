@@ -23,3 +23,7 @@ TESTFILE How to run
 1. Type ./testfile path_to_data energy Normally path_to_data is /eos/nica/mpd/data
 
 This program is checking output files from simulation, macro runMC.C and reco.C. It tells which simulation failed and why, printing list of correct mpddst.root files. If macro runMC.C or reco.C failed there is txt file with commands to run again these macros. You need to copy text from it and paste in filetest/UrQMD/queuefiles. Works only for UrQMD, vHLLE will be avaliable in future.
+
+Used simulation package
+UrQMD 3.4
+vHLLE https://github.com/pbatyuk/vHLLE_package
