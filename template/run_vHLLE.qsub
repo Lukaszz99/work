@@ -29,7 +29,7 @@ cd vHLLE.$1GeV
 mv /eos/nica/mpd/users/sawicki/vHLLEtmp/$JOB_ID .
 cd $JOB_ID
 mkdir output
-ln -s gen/*.root output/vHLLE_sim.root
+cp gen/*.root output/vHLLE_sim.root
 cd output
 cp /eos/nica/mpd/data/template/vHLLE/runMC.C .
 cp /eos/nica/mpd/data/template/vHLLE/reco.C .
