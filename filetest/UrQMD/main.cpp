@@ -51,7 +51,7 @@ int main(int argc, char **argv)
             if(!Urqmd)
             {
                 cout << "Big problems here, maybe you type wrong energy, check errors file!\nExiting...\n";
-                fprintf(file,"Folder Urqmd.%dGev not found. runurqmdevgen.qsub has failed\n",energy);
+                fprintf(file,"Folder Urqmd.%dGev not found. run_UrQMD.qsub has failed\n",energy);
                 fclose(file);
                 num_of_errors[1]++;
                 return 0;      
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
             ifstream job(job_folder);
             if(!job)
             {
-                fprintf(file,"Folder %s not found. runurqmdevgen.qsub has failed\n",i.c_str());
+                fprintf(file,"Folder %s not found. run_UrQMD.qsub has failed\n",i.c_str());
                 num_of_errors[1]++;
                 //prnt_qsublist(qsub_list,energy,first_list[0]);
                 //first_list[0] = false;
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
             ifstream gen(gen_folder);
             if(!gen)
             {
-                fprintf(file,"Folder gen in %s not found. runurqmdevgen.qsub has failed\n",i.c_str());
+                fprintf(file,"Folder gen in %s not found. run_UrQMD.qsub has failed\n",i.c_str());
                 num_of_errors[1]++;
                 //prnt_qsublist(qsub_list,energy,first_list[0]);
                 //first_list[0] = false;
@@ -93,7 +93,7 @@ int main(int argc, char **argv)
             //check how much events was in this job, works only if gen folder exist
             string inputfile = gen_folder + "/inputfile";
             last = nEvents;
-            if(n_Events(inputfile) > 10000)
+            if(n_Events(inputfile) > 10000) //this number mean error
             {
                 nEvents = last;
             }else
@@ -125,7 +125,7 @@ int main(int argc, char **argv)
             ifstream Test_folder(TestEvUrqmd_folder);
             if(!Test_folder)
             {
-                fprintf(file,"Folder TestEvUrqmd in %s not found. runurqmdevgen.qsub has failed\n",i.c_str());
+                fprintf(file,"Folder TestEvUrqmd in %s not found. run_UrQMD.qsub has failed\n",i.c_str());
                 num_of_errors[1]++;
                 //prnt_qsublist(qsub_list,energy,first_list[0]);
                 //first_list[0] = false;
@@ -183,7 +183,7 @@ int main(int argc, char **argv)
 
         cout << "Printing category of errors list " << endl;
 
-        fprintf(error_category,"%d/%d - %.2f%% of jobs has failed at all\n %d are runurqmd errors\n %d are Urqmd errors\n %d are runMC.C errors\n %d are reco.C errors",num_of_errors[0],folder_number,percentage_failed,num_of_errors[1],num_of_errors[2],num_of_errors[3],num_of_errors[4]);
+        fprintf(error_category,"%d/%d - %.2f%% of jobs has failed at all\n %d are run_UrQMD errors\n %d are Urqmd errors\n %d are runMC.C errors\n %d are reco.C errors",num_of_errors[0],folder_number,percentage_failed,num_of_errors[1],num_of_errors[2],num_of_errors[3],num_of_errors[4]);
 
         fclose(file);
         fclose(mpddst);
