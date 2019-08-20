@@ -10,12 +10,12 @@ int main(int argc, char **argv)
     {
 
         //int max_num_folders = atoi(argv[3]);
-        float energy = atof(argv[2]);
+        string energy = argv[2];
 
         int num_of_errors[5]{0,0,0,0,0}; //1 array - sum of failed jobs 2 - number of run_vHLLE.qsub fails 3 - nuber of vHLLE.C fails 4 - of runMC.C 5 - of reco.C
         //bool first_list[2]{true,true}; //bool helps print reco and runMC list 1st for runMC 2nd for reco
 
-        string GeV_folder = "vHLLE." + to_string(energy) + "GeV";
+        string GeV_folder = "vHLLE." + energy + "GeV";
         string make = "mkdir -p " + GeV_folder;
         string rm = "rm " + GeV_folder + "/jobs.txt"; // remove, because we dont want to overwrite txt folder
         string system_command = "ls /eos/nica/mpd/data/" + GeV_folder + ">>" + GeV_folder + "/jobs.txt";
@@ -23,17 +23,17 @@ int main(int argc, char **argv)
         system(rm.c_str());
         system(system_command.c_str());
 
-        string listjobs = "vHLLE." + to_string(energy) + "GeV/failed_folders.txt";
+        string listjobs = "vHLLE." + energy + "GeV/failed_folders.txt";
         string command = "rm " + listjobs;
         system(command.c_str());
 
         //string path = "/eos/nica/mpd/data"; //if you have gen and TestEvUrqmd inside Urqmd.energy.Gev folder just change path for your location of Urqmd.energy.Gev folder
         string path = argv[1];
-        string vHLLE_folder = path + "/vHLLE." + to_string(energy) + "GeV";
+        string vHLLE_folder = path + "/vHLLE." + energy + "GeV";
 
-        string error = GeV_folder + "/errors." + to_string(energy) + "GeV.txt";
-        string mpddsd_list = GeV_folder + "/vHLLE." + to_string(energy) + "gev.list.txt";
-        string error_cat = GeV_folder + "/error_category." + to_string(energy) + "GeV.txt";
+        string error = GeV_folder + "/errors." + energy + "GeV.txt";
+        string mpddsd_list = GeV_folder + "/vHLLE." + energy + "gev.list.txt";
+        string error_cat = GeV_folder + "/error_category." + energy + "GeV.txt";
         //string qsblst = GeV_folder + "/qsublist.txt";
         //string runMClst = GeV_folder + "/runMClist.txt";
         //string recolst = GeV_folder + "/recolist.txt";
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
             if(!vHLLE)
             {
                 cout << "Big problems here, maybe you type wrong energy, check errors file!\nExiting...\n";
-                fprintf(file,"Folder vHLLE.%.1fGev not found. run_vHLLE.qsub has failed\n",energy);
+                fprintf(file,"Folder vHLLE.%sGev not found. run_vHLLE.qsub has failed\n",energy);
                 fclose(file);
                 num_of_errors[1]++;
                 return 0;      
