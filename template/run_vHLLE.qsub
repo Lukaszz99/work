@@ -7,7 +7,7 @@
 # request Bourne again shell as shell for job
 #$ -S /bin/bash
 
-#remember to set energy [GeV] and number of events in vHLLE.C macro before run this script!
+#remember to set energy [GeV] and number of events in vHLLE.C macro (you must set 500 events) before run this script!
 
 source /eos/nica/mpd/users/sawicki/mpdroot/build/config.sh #set your path
 source /eos/nica/mpd/users/sawicki/vHLLE/config.sh #set your path
@@ -21,7 +21,6 @@ cd vHLLEtmp/$JOB_ID/gen
 cp /eos/nica/mpd/users/sawicki/vHLLE/macro/vHLLE.C . #set your path
 root -b -q vHLLE.C
 ./job*.bash
-#mv *.root vHLLE_sim.root
 
 #now we go back to data folder and mv JOB_ID folder from our local data
 cd /eos/nica/mpd/data
@@ -32,8 +31,8 @@ cd $JOB_ID
 mkdir output
 ln -s gen/*.root output/vHLLE_sim.root
 cd output
-cp /eos/nica/mpd/data/macro.vHLLE/runMC.C .
-cp /eos/nica/mpd/data/macro.vHLLE/reco.C .
+cp /eos/nica/mpd/data/template/vHLLE/runMC.C .
+cp /eos/nica/mpd/data/template/vHLLE/reco.C .
 cp /eos/nica/mpd/data/template/runreco.sh .
 ./runreco.sh
 
