@@ -63,7 +63,7 @@ int check_filesize(const string filename, unsigned long size_min)
 void hm_folders(string energy,int &folder_number, vector<string>&job_folder)
 {
     fstream folder_list;
-    string listjobs = "Urqmd." + energy + "GeV/jobs.txt";
+    string listjobs = "vHLLE." + energy + "GeV/jobs.txt";
     folder_list.open(listjobs.c_str(), ios::in | ios::out);
     string tmp;
     
@@ -79,7 +79,7 @@ void hm_folders(string energy,int &folder_number, vector<string>&job_folder)
 }
 void prnt_failedjobs(string energy, int i)
 {
-    string listjobs = "Urqmd." + energy + "GeV/failed_folders.txt";
+    string listjobs = "vHLLE." + energy + "GeV/failed_folders.txt";
     FILE *folder_list = fopen(listjobs.c_str(),"a+");
 
     fprintf(folder_list,"%d\n",i);
