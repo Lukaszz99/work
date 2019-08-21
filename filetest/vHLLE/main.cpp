@@ -11,7 +11,7 @@ int main(int argc, char **argv)
 
         //int max_num_folders = atoi(argv[3]);
         string energy = argv[2];
-
+        long int min_size[2]{5800000000,1350000000}; //min size for evetest and mpddst
         int num_of_errors[5]{0,0,0,0,0}; //1 array - sum of failed jobs 2 - number of run_vHLLE.qsub fails 3 - nuber of vHLLE.C fails 4 - of runMC.C 5 - of reco.C
         //bool first_list[2]{true,true}; //bool helps print reco and runMC list 1st for runMC 2nd for reco
 
@@ -108,16 +108,16 @@ int main(int argc, char **argv)
                 prnt_failedjobs(energy,stoi(i));
                 continue;
             }
-           /*if (check_filesize(fevetest,evetest_min[???])) what size is correct?
+           if (check_filesize(fevetest,min_size[0]))
             {
                 fprintf(file,"File evetest.root in output in %s is too small. Macro runMC.C has failed\n",i.c_str());
                 num_of_errors[3]++;
-                prnt_runMClist(runMClist,energy,first_list[1],stoi(i));
-                first_list[0] = false;
+                //prnt_runMClist(runMClist,energy,first_list[1],stoi(i));
+                //first_list[0] = false;
                 prnt_failedjobs(energy,stoi(i));
                 continue;
             }
-            */
+           
             
             string fmpddst = output_folder + "/mpddst.root";
             if(exist_file(fmpddst) != 1)
@@ -129,16 +129,16 @@ int main(int argc, char **argv)
                 prnt_failedjobs(energy,stoi(i));
                 continue;
             }
-            /*if(check_filesize(fmpddst,mpddst_min[???]))
+            if(check_filesize(fmpddst,min_size[1]))
             {
                 fprintf(file,"File mpddst.root in output %s is too small. Macro reco.C has failed\n",i.c_str());
                 num_of_errors[4]++;
-                prnt_recolist(recolist,energy,first_list[2],stoi(i));
-                first_list[2] = false;
+                //prnt_recolist(recolist,energy,first_list[2],stoi(i));
+                //first_list[2] = false;
                 prnt_failedjobs(energy,stoi(i));
                 continue;   
             }
-            */
+            
             //if everything is okay make list of mpddst.root files
             fprintf(mpddst,"%s\n",fmpddst.c_str());
         }
