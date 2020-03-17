@@ -1,5 +1,5 @@
 #!/bin/bash
-#$ -N UrQMD-200ev
+#$ -N UrQMD-500ev
 #$ -j y
 #$ -cwd
 #$ -o /eos/nica/mpd/data/output
@@ -20,21 +20,23 @@ cd UrQMD
 mkdir -p $2GeV
 cd $2GeV
 mkdir -p rootfiles
+mkdir -p rootfile/MiniDST
 
 echo "job_id = $JOB_ID"
 mkdir $JOB_ID
 cd $JOB_ID
 
 mkdir gen
-cp /eos/nica/mpd/data/template/inputfile gen/ #use inputfile from your home directory if you want different parameters then: Bi-Bi, ecm9GeV, imp0fm
-ln -s /eos/nica/mpd/users/zielinski/urqmd-3.4/urqmd.x86_64 gen/urqmd.x86_64 #link urqmd from your directory
+/eos/nica/mpd/data/template/makeinputfile $2 $3 $4 
+#cp /eos/nica/mpd/data/template/inputfile gen/ #use inputfile from your home directory if you want different parameters then: Bi-Bi, ecm9GeV, imp0fm
+ln -s /eos/nica/mpd/users/zielinski/opt/urqmd-3.4/urqmd.x86_64 gen/urqmd.x86_64 #link urqmd from your directory
 cd gen
-/eos/nica/mpd/users/zielinski/urqmd-3.4/runqmd.bash #run urqmd from your directory
+/eos/nica/mpd/users/zielinski/opt/urqmd-3.4/runqmd.bash #run urqmd from your directory
 cd ../
 
 mkdir TestEvUrqmd
 cd TestEvUrqmd
-ln -s ../gen/test.f14 $1$1.09gev.0_3fm.500.f14
+ln -s ../gen/test.f14 $1$1.ecm09gev.imp0_3fm.500.f14
 #coping essential macros from /eos/nica/mpd/data/template/
 cp /eos/nica/mpd/data/template/runMC.C .
 cp /eos/nica/mpd/data/template/reco.C .
@@ -42,12 +44,21 @@ cp /eos/nica/mpd/data/template/reco.C .
 cp /eos/nica/mpd/data/template/runreco.sh .
 ./runreco.sh $JOB_ID
 
+cp /eos/nica/mpd/data/template/test_dst.cxx ./
+cp /eos/nica/mpd/data/template/Makefile ./
+make
+
 if /eos/nica/mpd/data/template/test_dst 500
 then
-    ln -s mpddst.root /eos/nica/mpd/data/$1-$1/UrQMD/$2GeV/$1$1.09gev.0_3fm.500.dst.root
+    ln -s mpddst.root /eos/nica/mpd/data/$1-$1/UrQMD/$2GeV/rootfiles/$1$1.ecm09gev.imp0_3fm.500.dst.ID$JOB_ID.root
+    ln -s mpddst.MiniDST.root /eos/nica/mpd/data/$1-$1/UrQMD/$2GeV/rootfiles/MiniDST/$1$1.ecm09gev.imp0_3fm.500.MiniDST.ID$JOB_ID.root
 else
     echo "Error: not enough events in mpddst.root file!" >> error.log
 fi
+
+make clean
+rm -rf test_dst.cxx
+rm -rf Makefile
 
 #moving output and error files to a directory of the job
 mv /eos/nica/mpd/data/output/*$JOB_ID /eos/nica/mpd/data/$1-$1/UrQMD/$2GeV/$JOB_ID/
