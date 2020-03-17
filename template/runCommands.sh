@@ -12,7 +12,7 @@ echo "Configuration:"
     echo "model=$MODEL"
     echo "$NUC_1-$NUC_2"
     echo "ecm=$ECM GeV"
-    echo "imp=$IMP"
+    echo "imp=$IMP fm"
     echo "nev=$NEV"
     echo "n_jobs=$N_JOBS"
     echo "correct? (y/n)"
@@ -45,7 +45,7 @@ do
     echo "model=$MODEL"
     echo "$NUC_1-$NUC_2"
     echo "ecm=$ECM GeV"
-    echo "imp=$IMP"
+    echo "imp=$IMP fm"
     echo "nev=$NEV"
     echo "n_jobs=$N_JOBS"
     echo "correct? (y/n)"
@@ -55,10 +55,11 @@ done
 
 if [ $x = y ]
 then
-    counter=1
+    counter=0
     while [ $counter -lt $N_JOBS ]
     do
 	qsub run_$MODEL.qsub $NUC_1 $ECM $IMP $NEV
+	counter=$(( $counter + 1 ))
     done
 else
     echo "Error: wrong configuration"
