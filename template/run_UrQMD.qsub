@@ -1,43 +1,65 @@
 #!/bin/bash
-#$ -N UrQMD-200ev
+#$ -N UrQMD-500ev
 #$ -j y
 #$ -cwd
 #$ -o /eos/nica/mpd/data/output
 #$ -e /eos/nica/mpd/data/error
 # request Bourne again shell as shell for job
 #$ -S /bin/bash
-
+MY_OPT_PATH=/eos/nica/mpd/users/zielinski/opt #change path to your direcotry with MpdROOT and UrQMD
+TEMPLATE_PATH=/eos/nica/mpd/data/template
 
 echo " Start date: `date` (`hostname`)"
 
-source /eos/nica/mpd/users/zielinski/opt/mpdroot/build/config.sh #change path to your own mpdROOT 
+source $MY_OPT_PATH/mpdroot/build/config.sh 
 cd /eos/nica/mpd/data/
-mkdir -p Urqmd.$1GeV
-cd Urqmd.$1GeV
+mkdir -p $1-$1
+cd $1-$1
+
+mkdir -p UrQMD
+cd UrQMD
+mkdir -p $2GeV
+cd $2GeV
+mkdir -p 0-$3fm
+cd 0-$3fm
+DIRECTORY_PATH=$(pwd)
+mkdir -p rootfiles/MiniDST
+
 echo "job_id = $JOB_ID"
 mkdir $JOB_ID
 cd $JOB_ID
 
 mkdir gen
-cp /nica/user/s/sawicki/work/template/inputfile gen/ #use inputfile from your home directory
-ln -s /eos/nica/mpd/users/sawicki/urqmd-3.4/urqmd.x86_64 gen/urqmd.x86_64 #link urqmd from your directory
+#cp /eos/nica/mpd/data/template/inputfile gen/
+
+ln -s $MY_OPT_PATH/urqmd-3.4/urqmd.x86_64 gen/urqmd.x86_64 #link urqmd from your directory
 cd gen
-/eos/nica/mpd/users/sawicki/urqmd-3.4/runqmd.bash #run urqmd from your directory
+$TEMPLATE_PATH/makeinputfile $2 $3 $4 #use inputfile from your home directory if you want different parameters then: Bi-Bi, ecm9GeV, imp0fm
+$MY_OPT_PATH/urqmd-3.4/runqmd.bash #run urqmd from your directory
 cd ../
 
 mkdir TestEvUrqmd
 cd TestEvUrqmd
-ln -s ../gen/test.f14 fort.f14
+ln -s ../gen/test.f14 $1$1.ecm09gev.imp0_3fm.500.f14
 #coping essential macros from /eos/nica/mpd/data/template/
-cp /eos/nica/mpd/data/template/runMC.C .
-cp /eos/nica/mpd/data/template/reco.C .
+cp $TEMPLATE_PATH/runMC.C .
+cp $TEMPLATE_PATH/reco.C .
 
-cp /eos/nica/mpd/data/template/runreco.sh .
+cp $TEMPLATE_PATH/runreco.sh .
 ./runreco.sh $JOB_ID
-cd ..
+
+if $TEMPLATE_PATH/test_dst 500
+then
+    ln -s mpddst.root $DIRECTORY_PATH/rootfiles/$1$1.ecm09gev.imp0_3fm.500.dst.ID$JOB_ID.root
+    ln -s mpddst.MiniDST.root $DIRECTORY_PATH/rootfiles/MiniDST/$1$1.ecm09gev.imp0_3fm.500.MiniDST.ID$JOB_ID.root
+else
+    echo "Error: not enough events in mpddst.root file!" >> error.log
+fi
 
 #moving output and error files to a directory of the job
-mv /eos/nica/mpd/data/output/*$JOB_ID /eos/nica/mpd/data/Urqmd.$1GeV/$JOB_ID/
-mv /eos/nica/mpd/data/error/*$JOB_ID /eos/nica/mpd/data/Urqmd.$1GeV/$JOB_ID/
+mv /eos/nica/mpd/data/output/*$JOB_ID $DIRECTORY_PATH/$JOB_ID/
+mv /eos/nica/mpd/data/error/*$JOB_ID $DIRECTORY_PATH/$JOB_ID/
+
+cd ..
 
 echo " End date: `date`"
