@@ -40,7 +40,7 @@ cd ../
 
 mkdir TestEvUrqmd
 cd TestEvUrqmd
-ln -s ../gen/test.f14 $1$1.ecm09gev.imp0_3fm.500.f14
+ln -s ../gen/test.f14 $1$1.ecm0$2gev.imp0_$3fm.$4.f14
 #coping essential macros from /eos/nica/mpd/data/template/
 cp $TEMPLATE_PATH/runMC.C .
 cp $TEMPLATE_PATH/reco.C .
@@ -48,10 +48,10 @@ cp $TEMPLATE_PATH/reco.C .
 cp $TEMPLATE_PATH/runreco.sh .
 ./runreco.sh $JOB_ID
 
-if $TEMPLATE_PATH/test_dst 500
+if $TEMPLATE_PATH/test_dst $4
 then
-    ln -s mpddst.root $DIRECTORY_PATH/rootfiles/$1$1.ecm09gev.imp0_3fm.500.dst.ID$JOB_ID.root
-    ln -s mpddst.MiniDST.root $DIRECTORY_PATH/rootfiles/MiniDST/$1$1.ecm09gev.imp0_3fm.500.MiniDST.ID$JOB_ID.root
+    ln -s mpddst.root $DIRECTORY_PATH/rootfiles/$1$1.ecm0$2gev.imp0_$3fm.$4.dst.ID$JOB_ID.root
+    ln -s mpddst.MiniDst.root $DIRECTORY_PATH/rootfiles/MiniDST/$1$1.ecm0$2gev.imp0_$3fm.$4.MiniDST.ID$JOB_ID.root
 else
     echo "Error: not enough events in mpddst.root file!" >> error.log
 fi

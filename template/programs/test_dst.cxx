@@ -7,7 +7,7 @@ int main(int argc, char** argv){
   if(argc !=2) nev = 500;
   else nev = atoi(argv[1]);
 
-  TFile* file = new TFile("mpddst.root");
+  TFile* file = new TFile("./mpddst.root");
   TTree* tree = (TTree*)(gDirectory->Get("mpdsim")->Clone());
 
   if (tree->GetEntries() == nev) return 0;
