@@ -27,7 +27,7 @@ Not inmplemented yet!
 
 # Directory structure
 Data are stored in /eos/nica/mpd/data in different folders. Files are stored in directories given by the rule:
-/eos/nica/mpd/data/NUCLEI-NUCLEI/MODEL/ENERGY/IMP/JOB_ID/
+/eos/nica/mpd/data/NUCLEUS-NUCLEUS/MODEL/ENERGY/IMP/JOB_ID/
 
 (example: job 1074283 for Bi-Bi collision @ ecm = 9 GeV with max_imp=3 fm 500 events: /eos/nica/mpd/data/Bi-Bi/UrQMD/9GeV/0-3fm/1074283/ )
 
