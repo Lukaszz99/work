@@ -22,7 +22,7 @@ Run the runCommands.sh script and follow instructions in the terminal.
 
 ### vHLLE simulation
 
-Not inmplemented yet!
+Not implemented yet!
 
 
 # Directory structure
