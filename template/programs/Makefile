@@ -18,5 +18,4 @@ test_dst: test_dst.o
 
 clean:
 	rm -f *.o test_dst *.d
-	rm -f *.o commands *.d
 	rm -f *.o makeinputfile *.d

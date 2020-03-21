@@ -1,7 +1,7 @@
 #!/bin/bash
 #x exiting variable
 NEV=500 #number of events in one file (preferred 500)
-N_JOBS=300 #number of jobs to run (max 300 per person)
+N_JOBS=350 #number of jobs to run (max 400 per person)
 MODEL=UrQMD #model used for simulation (only UrQMD 3.4 available right now)
 NUC_1=Bi #first nucleus (symbol: Au,Bi)
 NUC_2=Bi #secodnf nucleus (symbol: Au,Bi)
@@ -32,13 +32,13 @@ do
     echo "At what energy? (preferred is 9GeV)"
     read ECM
 
-    echo "With what maximum impact parameter?"
+    echo "With what maximum impact parameter? ( 3fm)"
     read IMP
 
     echo "How many evets in one job? (preferred 500)"
     read NEV
 
-    echo "How many jobs? (maximum is 300 per person)"
+    echo "How many jobs? (maximum is 400 per person)"
     read N_JOBS
     
     echo "Configuration:"
