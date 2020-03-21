@@ -1,5 +1,5 @@
 #!/bin/bash
-#$ -N UrQMD-500ev
+#$ -N gen_UrQMD
 #$ -j y
 #$ -cwd
 #$ -o /eos/nica/mpd/data/output
@@ -40,7 +40,7 @@ cd ../
 
 mkdir TestEvUrqmd
 cd TestEvUrqmd
-ln -s ../gen/test.f14 $1$1.ecm$2gev.imp0_$3fm.$4.f14
+ln -s ../gen/test.f14 $1$1.ecm$2gev.imp0_$3fm.f14
 #coping essential macros from /eos/nica/mpd/data/template/
 cp $TEMPLATE_PATH/runMC.C .
 cp $TEMPLATE_PATH/reco.C .
