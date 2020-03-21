@@ -1,6 +1,7 @@
-Łukasz Sawicki           
-l.sawicki99@gmail.com       
-Jakub Zielinski
+Łukasz Sawicki:
+l.sawicki99@gmail.com 
+
+Jakub Zielinski:
 qba.zielinski@gmail.com
 
 # Prerequisites
