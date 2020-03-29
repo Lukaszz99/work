@@ -1,5 +1,0 @@
-#!/bin/bash
-
-DIRECTORY_PATH=$(pwd)
-echo $DIRECTORY_PATH
-cd ln -s $DIRECTORY_PATH/test.sh $DIRECTORY_PATH/programs/testing.sh
